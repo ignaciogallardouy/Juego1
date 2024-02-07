@@ -16,6 +16,12 @@ export class Game extends Phaser.Scene {
 
     //Crea la escena
     create() {
+
+        //Prueba Multijugador
+        socket.on('movimiento', () =>{
+            console.log('Algún jugador está moviendose');
+        })
+
         //hace que los límites del mapa tengan colisión
         //setBoundsCollision([left], [right], [up], [down])
         this.physics.world.setBoundsCollision(true, true, true, false);
@@ -59,8 +65,10 @@ export class Game extends Phaser.Scene {
     update() {
         if (this.cursors.left.isDown) {
             this.platform.setVelocityX(-500);
+            socket.emit('JugMovimiento');
         } else if (this.cursors.right.isDown) {
             this.platform.setVelocityX(500);
+            socket.emit('JugMovimiento');
         } else {
             this.platform.setVelocityX(0);
         }

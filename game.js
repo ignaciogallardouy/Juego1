@@ -12,6 +12,7 @@ export class Game extends Phaser.Scene {
         this.load.image('gameover', 'images/gameover.png');
         this.load.image('platform', 'images/platform.png');
         this.load.image('ball', 'images/ball.png');
+        this.load.image('balldos', 'images/ball.png');
     }
 
     //Crea la escena
@@ -30,6 +31,17 @@ export class Game extends Phaser.Scene {
         //Deshabilita la gravedad para la plataforma
         this.platform.body.allowGravity = false;
 
+        socket.on('movimiento', () => {
+            //Coloca la bola
+            this.balldos = this.physics.add.image(400, 30, 'balldos');
+            //Permite colisiones con la bola y la plataforma
+            this.physics.add.collider(this.balldos, this.platform);
+            //Hace que la bola colisione con TODOS los bordes del mapa
+            //NECESARIO PARA QUE FUNCIONE EL setBoundsCollision
+            this.balldos.setCollideWorldBounds(true);
+            //Permite rebote de la bola y permite configurar la fuerza del rebote.
+            this.balldos.setBounce(1);
+        });
 
         //Coloca la bola
         this.ball = this.physics.add.image(400, 30, 'ball');
@@ -59,8 +71,10 @@ export class Game extends Phaser.Scene {
     update() {
         if (this.cursors.left.isDown) {
             this.platform.setVelocityX(-500);
+            socket.emit("JugMovimiento");
         } else if (this.cursors.right.isDown) {
             this.platform.setVelocityX(500);
+            socket.emit("JugMovimiento");
         } else {
             this.platform.setVelocityX(0);
         }

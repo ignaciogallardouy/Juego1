@@ -14,5 +14,6 @@ const config = {
     }
 }
 
+
 //Instancia el juego
 var game = new Phaser.Game(config);

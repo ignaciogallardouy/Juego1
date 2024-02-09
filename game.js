@@ -6,7 +6,7 @@ var gameConfig = {
     physics: {
         default: 'arcade', // El sistema de físicas que se usará
         arcade: {
-            gravity: { y: 10 }, // La gravedad en el eje Y (no necesaria si es un juego top-down)
+            gravity: { y: 400 }, // La gravedad en el eje Y (no necesaria si es un juego top-down)
             debug: false // Muestra los cuerpos de física para depuración
         }
     },
@@ -42,21 +42,21 @@ function create() {
 
     // //hace que los límites del mapa tengan colisión
     // //setBoundsCollision([left], [right], [up], [down])
-    this.physics.world.setBoundsCollision(true, true, true, false);
+    this.physics.world.setBoundsCollision(true, true, true, true);
 
-    this.add.image(400, 250, 'background');
+    this.add.image(400, 300, 'background');
     this.gameoverImage = this.add.image(400, 90, 'gameover');
     this.gameoverImage.visible = false;
 
     // // Permite colocar elementos los cuales seran afectados por las fisicas de elementos
     // //Hace a la plataforma inmovible
-    this.object1 = this.physics.add.image(400, 460, 'object1').setImmovable();
+    this.object1 = this.physics.add.sprite(400, 460, 'object1').setImmovable();
     // //Deshabilita la gravedad para la plataforma
     this.object1.body.allowGravity = false;
 
     // /* PLataforma 2*/
     // //Hace a la plataforma inmovible
-    this.object2 = this.physics.add.image(400, 460, 'object2').setImmovable();
+    this.object2 = this.physics.add.sprite(400, 460, 'object2').setImmovable();
     // //Deshabilita la gravedad para la plataforma
     this.object2.body.allowGravity = false;
     // //Permite colisiones con la bola y la plataforma
@@ -65,7 +65,7 @@ function create() {
     // /* PLataforma 2*/
 
     // //Coloca la bola
-    this.ball = this.physics.add.image(400, 30, 'ball');
+    this.ball = this.physics.add.sprite(400, 30, 'ball');
     // //Permite colisiones con la bola y la plataforma
     this.physics.add.collider(this.ball, this.object1);
     this.physics.add.collider(this.ball, this.object2);
@@ -83,7 +83,7 @@ function create() {
     this.ball.setVelocity(velocity, 10);
 
     // //Permite crear cursores, informacion de alto nivel para la info de teclas pulsadas
-    this.cursors = this.input.keyboard.createCursorKeys();
+    cursors = this.input.keyboard.createCursorKeys();
 
     //Permite indicar velocidades (x,y)
     // this.object1.setVelocity(10, 0);
@@ -91,10 +91,10 @@ function create() {
 
 //Permite ejecuciones constantes de formas repetititas dentro de la escena, siempre que la escena permanezca activa
 function update() {
-    if (this.cursors.left.isDown) {
+    if (cursors.left.isDown) {
         this.object1.setVelocityX(-500);
         // socket.emit('JugMovimiento');
-    } else if (this.cursors.right.isDown) {
+    } else if (cursors.right.isDown) {
         this.object1.setVelocityX(500);
         // socket.emit('JugMovimiento');
     } else {
@@ -112,13 +112,13 @@ function update() {
 
     // //Pantalla de Game Over
     // //accede a la posicion y de la bola
-    if (this.ball.y > 500) {
-        console.log('fin');
-        this.gameoverImage.visible = true;
-        this.object1.visible = false;
-        this.object2.visible = false;
-        this.scene.pause();
-    }
+    // if (this.ball.y > 500) {
+    //     console.log('fin');
+    //     this.gameoverImage.visible = true;
+    //     this.object1.visible = false;
+    //     this.object2.visible = false;
+    //     this.scene.pause();
+    // }
 }
 
 window.onload = function () {

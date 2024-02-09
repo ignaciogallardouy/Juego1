@@ -1,4 +1,5 @@
-//const socket = io();
+
+
 export class Game extends Phaser.Scene {
     
     constructor() {
@@ -17,7 +18,7 @@ export class Game extends Phaser.Scene {
 
     //Crea la escena
     create() {
-                
+        const socket = io('http://localhost:3000');
         //Prueba Multijugador
         socket.on('movimiento', () =>{
             console.log('Algún jugador está moviendose');

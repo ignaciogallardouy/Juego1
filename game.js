@@ -1,3 +1,4 @@
+import { Player } from './clases/Player.js';
 var socket = io.connect('http://localhost:3000');
 export class Game extends Phaser.Scene {
     
@@ -9,20 +10,41 @@ export class Game extends Phaser.Scene {
 
     //Precarga de items
     preload() {
-        
         this.load.image('background', 'images/background.png');
         this.load.image('gameover', 'images/gameover.png');
         this.load.image('platform', 'images/platform.png');
         this.load.image('ball', 'images/ball.png');
+        this.load.image('balldos', 'images/ball.png');
     }
 
     //Crea la escena
     create() {
+
+        //const player = new Player(x,y,this.platform);
+        const players = {};
         
+        //Agregar Players
+        socket.on('updatePlayers', (BackendPlayers) => {
+            //console.log(BackendPlayers);
+            for(const id in BackendPlayers) {
+                const BackendPlayer = BackendPlayers[id];
+
+                if(!players[id]){
+                    // players[id] = this.platformdos = this.physics.add.image(BackendPlayer.x, BackendPlayer.y, 'platformdos').setImmovable();
+                    // this.platformdos.body.allowGravity = false;
+                    players[id] = new Player(BackendPlayer.x,BackendPlayer.y,BackendPlayer.img);
+                    players[id].img = this.physics.add.image(BackendPlayer.x,BackendPlayer.y,BackendPlayer.img).setImmovable();
+                    players[id].img.body.allowGravity = false;
+                }
+            }
+            console.log("coso");
+            console.log(players);
+        });
+
         //Prueba Multijugador
-        socket.on('movimiento', () =>{
+        socket.on('movimiento', (socket) =>{
             console.log('Algún jugador está moviendose');
-        })
+        });
 
         //hace que los límites del mapa tengan colisión
         //setBoundsCollision([left], [right], [up], [down])
@@ -83,5 +105,9 @@ export class Game extends Phaser.Scene {
             this.platform.visible = false;
             this.scene.pause();
         }
+    }
+
+    animate(){
+
     }
 }

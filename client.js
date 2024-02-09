@@ -1,28 +1,3 @@
-// import { Game } from './game.js';
-
-// const config = {
-//     type: Phaser.AUTO, //Permite al navegador usar WebGL o Canvas
-//     width: 800,
-//     height: 500,
-//     scene: [Game], //Son las pantallas de un videojuego (partes que son muy diferentes unas de otras)
-//     // scene: {
-//     //     preload: preload, // La función que cargará los recursos
-//     //     create: create, // La función que creará los objetos del juego
-//     //     update: update // La función que se ejecutará en cada frame para actualizar el juego
-//     // },
-//     physics: {
-//         default: 'arcade',
-//         arcade: {
-//             gravity: { y: 400 },
-//             debug: false
-//         }
-//     }
-// }
-
-
-
-// ACA
-
 // Se define la configuración de Phaser al inicio.
 var gameInstance;
 var gameConfig = {
@@ -53,10 +28,3 @@ window.onload = function() {
     }
   });
 };
-
-
-// FIN
-
-// window.onload = function() {
-//     gameInstance = new Phaser.Game(config);
-// };

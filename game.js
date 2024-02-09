@@ -13,6 +13,7 @@ export class Game extends Phaser.Scene {
         this.load.image('background', 'images/background.png');
         this.load.image('gameover', 'images/gameover.png');
         this.load.image('platform', 'images/platform.png');
+        this.load.image('platformdos', 'images/platform.png');
         this.load.image('ball', 'images/ball.png');
         this.load.image('balldos', 'images/ball.png');
     }
@@ -30,14 +31,10 @@ export class Game extends Phaser.Scene {
                 const BackendPlayer = BackendPlayers[id];
 
                 if(!players[id]){
-                    // players[id] = this.platformdos = this.physics.add.image(BackendPlayer.x, BackendPlayer.y, 'platformdos').setImmovable();
-                    // this.platformdos.body.allowGravity = false;
-                    players[id] = new Player(BackendPlayer.x,BackendPlayer.y,BackendPlayer.img);
-                    players[id].img = this.physics.add.image(BackendPlayer.x,BackendPlayer.y,BackendPlayer.img).setImmovable();
-                    players[id].img.body.allowGravity = false;
+                    players[id] = new Player(id,BackendPlayer.x,BackendPlayer.y,BackendPlayer.img);
                 }
             }
-            console.log("coso");
+            socket.emit("updatePlayers", BackendPlayers)
             console.log(players);
         });
 
@@ -60,6 +57,15 @@ export class Game extends Phaser.Scene {
         //Deshabilita la gravedad para la plataforma
         this.platform.body.allowGravity = false;
 
+        /* PLataforma 2*/
+        //Hace a la plataforma inmovible
+        this.platformdos = this.physics.add.image(400, 460, 'platformdos').setImmovable();
+        //Deshabilita la gravedad para la plataforma
+        this.platformdos.body.allowGravity = false;
+        //Permite colisiones con la bola y la plataforma
+        this.physics.add.collider(this.ball, this.platformdos);
+        this.platformdos.setCollideWorldBounds(true);
+        /* PLataforma 2*/
 
         //Coloca la bola
         this.ball = this.physics.add.image(400, 30, 'ball');
@@ -107,7 +113,9 @@ export class Game extends Phaser.Scene {
         }
     }
 
-    animate(){
-
-    }
 }
+
+window.onload = function() {
+    gameInstance = new Phaser.Game(gameConfig);
+};
+

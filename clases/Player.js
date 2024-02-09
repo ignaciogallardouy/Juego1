@@ -1,5 +1,6 @@
 export class Player {
-    constructor(x,y,img){
+    constructor(id,x,y,img){
+        this.id = id;
         this.x = x;
         this.y = y;
         this.img = img;

@@ -1,5 +1,6 @@
+//const socket = io();
 export class Game extends Phaser.Scene {
-
+    
     constructor() {
         super({ key: 'game' });
     }
@@ -16,7 +17,7 @@ export class Game extends Phaser.Scene {
 
     //Crea la escena
     create() {
-
+                
         //Prueba Multijugador
         socket.on('movimiento', () =>{
             console.log('Algún jugador está moviendose');
@@ -24,7 +25,7 @@ export class Game extends Phaser.Scene {
 
         //hace que los límites del mapa tengan colisión
         //setBoundsCollision([left], [right], [up], [down])
-        this.physics.world.setBoundsCollision(true, true, true, false);
+        this.physics.world.setBoundsCollision(true, true, true, true);
 
         this.add.image(400, 250, 'background');
         this.gameoverImage = this.add.image(400, 90, 'gameover');

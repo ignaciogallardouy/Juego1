@@ -5,7 +5,7 @@ var gameConfig = {
 };
 
 // Este es el manejador único para window.onload.
-window.onload = function() {
+window.onload = function () {
   // Establece la conexión con el servidor de socket.
   var socket = io.connect('http://localhost:3000');
 
@@ -13,11 +13,11 @@ window.onload = function() {
   gameInstance = new Phaser.Game(gameConfig);
 
   // Eventos relacionados con el estado del juego y los jugadores.
-  socket.on('connect', function() {
+  socket.on('connect', function () {
     socket.emit('nuevo jugador', { id: socket.id });
   });
 
-  socket.on('estado del juego', function(estadoDelJuego) {
+  socket.on('estado del juego', function (estadoDelJuego) {
     // Actualizar los objetos en el juego con el estado proporcionado por el servidor
     if (gameInstance && gameInstance.scene.keys.yourSceneKey) { // Asegúrate de reemplazar 'yourSceneKey' con la clave de tu escena de Phaser.
       var scene = gameInstance.scene.keys.yourSceneKey;
@@ -28,3 +28,4 @@ window.onload = function() {
     }
   });
 };
+
